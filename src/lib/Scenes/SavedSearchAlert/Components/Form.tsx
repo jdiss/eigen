@@ -16,6 +16,7 @@ interface FormProps {
   artistName: string
   isLoading?: boolean
   isPreviouslySaved?: boolean
+  isChangedFilters?: boolean
   onDeletePress?: () => void
   onSubmitPress?: () => void
   onUpdateEmailPreferencesPress?: () => void
@@ -32,6 +33,7 @@ export const Form: React.FC<FormProps> = (props) => {
     savedSearchAlertId,
     isLoading,
     isPreviouslySaved,
+    isChangedFilters,
     onDeletePress,
     onSubmitPress,
     onUpdateEmailPreferencesPress,
@@ -56,6 +58,11 @@ export const Form: React.FC<FormProps> = (props) => {
   // This situation is possible if a user created an alert in Saved Search V1,
   // since we didn't have the opportunity to specify custom name for the alert
   if (isEditMode && !dirty && values.name.length === 0) {
+    isSaveAlertButtonDisabled = false
+  }
+
+  // Enable "Save Alert" button if the user has removed the filters
+  if (isEditMode && isChangedFilters) {
     isSaveAlertButtonDisabled = false
   }
 

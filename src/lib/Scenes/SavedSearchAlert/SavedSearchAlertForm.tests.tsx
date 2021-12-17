@@ -564,6 +564,16 @@ describe("Saved search alert form", () => {
 
       expect(getByTestId("save-alert-button")).toBeEnabled()
     })
+
+    it("should be enabled if filters are changed in edit mode", () => {
+      __globalStoreTestUtils__?.injectFeatureFlags({ AREnableImprovedSearchPills: true })
+      const { getByText, getAllByText } = renderWithWrappersTL(
+        <SavedSearchAlertForm {...baseProps} savedSearchAlertId="savedSearchAlertId" />
+      )
+
+      fireEvent.press(getByText("Limited Edition"))
+      expect(getAllByText("Save Alert")[0]).toBeEnabled()
+    })
   })
 
   describe("Create Alert Form", () => {
