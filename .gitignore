@@ -146,5 +146,8 @@ eigen-firebase-app-distribution.json
 storybook.json
 
 
+src/__generated__/*
+
+
 # Keep these, so we can keep the folders these appear in
 !.gitkeep
