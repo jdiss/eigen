@@ -21,8 +21,6 @@ const artworkNode = {
   },
 }
 
-type CleanRelay<T> = Omit<T, " $fragmentType">
-
 const emptyFairsModule: CleanRelay<FairsRail_fairsModule> = {
   results: [],
 }
