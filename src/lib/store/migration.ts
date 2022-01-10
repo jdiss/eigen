@@ -30,7 +30,7 @@ export const Versions = {
   AddVisualClueModel: 18,
 }
 
-export const CURRENT_APP_VERSION = Versions.RemoveNativeOnboardingState
+export const CURRENT_APP_VERSION = Versions.AddVisualClueModel
 
 export type Migrations = Record<number, (oldState: any) => any>
 export const artsyAppMigrations: Migrations = {
@@ -117,7 +117,9 @@ export const artsyAppMigrations: Migrations = {
     delete state.native.onboardingState
   },
   [Versions.AddVisualClueModel]: (state) => {
-    state.config.visualClue = {}
+    state.visualClue = {
+      seenVisualClues: [],
+    }
   },
 }
 
