@@ -4,7 +4,7 @@ import React from "react"
 export const ContactInformation = ({ handlePress }: { handlePress: () => void }) => {
   return (
     <Flex backgroundColor="peachpuff" p={1} mt={1}>
-      <Text>ContactInformation content</Text>
+      <Text>ContactInformation content (Only change this)</Text>
       <Spacer mt={1} />
       <CTAButton onPress={handlePress}>Submit Artwork</CTAButton>
     </Flex>
