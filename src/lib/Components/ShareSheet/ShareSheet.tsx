@@ -27,8 +27,8 @@ export interface ShareSheetProps {
   entry: ShareEntry
   showWhatsapp?: boolean
   showInstagram?: boolean
-  parentContextModule: ContextModule
-  sharingEntryContextModule: ContextModule
+  contextModule: ContextModule
+  componentContextModule?: ContextModule
   ownerType: OwnerType
   setVisible: (isVisible: boolean) => void
 }
@@ -37,8 +37,8 @@ export const ShareSheet: React.FC<ShareSheetProps> = (props) => {
   const {
     visible,
     entry,
-    parentContextModule,
-    sharingEntryContextModule,
+    contextModule,
+    componentContextModule,
     ownerType,
     showWhatsapp = true,
     showInstagram = true,
@@ -54,7 +54,7 @@ export const ShareSheet: React.FC<ShareSheetProps> = (props) => {
     try {
       const url = getShareURL(entry.href)
       const message = getShareMessage(entry.artistNames, entry.title)
-      const event = tracks.share(sharingEntryContextModule, ownerType, entry, CustomService.whatsapp)
+      const event = tracks.share(contextModule, ownerType, entry, CustomService.whatsapp)
 
       await Share.shareSingle({
         social: Share.Social.WHATSAPP,
@@ -73,7 +73,7 @@ export const ShareSheet: React.FC<ShareSheetProps> = (props) => {
   const handleShareOnInstagramStoryPress = async () => {
     try {
       const base64Data = await getBase64Data(shotRef.current!)
-      const event = tracks.share(sharingEntryContextModule, ownerType, entry, CustomService.instagram_stories)
+      const event = tracks.share(contextModule, ownerType, entry, CustomService.instagram_stories)
 
       await Share.shareSingle({
         social: Share.Social.INSTAGRAM_STORIES,
@@ -91,7 +91,7 @@ export const ShareSheet: React.FC<ShareSheetProps> = (props) => {
     trackEvent({
       action_name: Schema.ActionNames.Share,
       action_type: Schema.ActionTypes.Tap,
-      context_module: parentContextModule,
+      context_module: componentContextModule ?? ContextModule.shareSheet,
     })
 
     try {
@@ -109,7 +109,7 @@ export const ShareSheet: React.FC<ShareSheetProps> = (props) => {
       }
 
       const res = await Share.open(shareOptions)
-      const event = tracks.share(sharingEntryContextModule, ownerType, entry, res.message)
+      const event = tracks.share(contextModule, ownerType, entry, res.message)
 
       trackEvent(share(event))
     } catch (error) {
@@ -121,7 +121,7 @@ export const ShareSheet: React.FC<ShareSheetProps> = (props) => {
 
   const handleCopyLinkPress = () => {
     const clipboardLink = getShareURL(entry.href)
-    const event = tracks.share(sharingEntryContextModule, ownerType, entry, CustomService.copy_link)
+    const event = tracks.share(contextModule, ownerType, entry, CustomService.copy_link)
 
     setVisible(false)
     Clipboard.setString(clipboardLink)
